@@ -54,7 +54,7 @@ public class MyAppointmentController {
 				EmailSender.sendMail("revanhj1993@gmail.com", "sunday14031993", "userName:"+s.getEmail()+" password:"+u.getPassword(), s.getEmail());
 			}else {
 				Optional<Appointment> a= appointmentRepo.findByPatientId(s.getPatientId()).stream().findFirst();
-				if(!a.isEmpty()) {
+				if(a.isPresent()) {
 					Appointment app=a.get();
 					s.setMobileNumber(app.getMobileNumber());
 					s.setAddress(app.getAddress());

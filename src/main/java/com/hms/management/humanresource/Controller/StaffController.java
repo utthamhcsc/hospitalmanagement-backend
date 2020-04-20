@@ -53,10 +53,10 @@ public class StaffController {
 		b.setStaffId(b.getRole()+"-"+DateTimeFormatter.ofPattern("yyyyMMddHHmmssa").format(LocalDateTime.now()));
 		
 		}
-		b.setPhoto(!file1.isEmpty()?upload.upload(file1.get()):b.getPhoto());
-		b.setResume(!file2.isEmpty()?upload.upload(file2.get()):b.getResume());
-		b.setJoiningLetter(!file3.isEmpty()?upload.upload(file3.get()):b.getJoiningLetter());
-		b.setOtherDocuments(!file4.isEmpty()?upload.upload(file4.get()):b.getOtherDocuments());
+		b.setPhoto(file1.isPresent()?upload.upload(file1.get()):b.getPhoto());
+		b.setResume(file2.isPresent()?upload.upload(file2.get()):b.getResume());
+		b.setJoiningLetter(file3.isPresent()?upload.upload(file3.get()):b.getJoiningLetter());
+		b.setOtherDocuments(file4.isPresent()?upload.upload(file4.get()):b.getOtherDocuments());
 		Staff s=staffRepo.save(b);
 		UserRegistration u=new UserRegistration();
 		u.setEmail(s.getEmail());
@@ -92,7 +92,7 @@ userRepo.save(u);
 	@GetMapping("/get/{staffId}")
 	public <T> T getByStaffIdProfile(@PathVariable String staffId) {
 		Optional<Staff> map= staffRepo.findById(staffId);
-		return (T) (!map.isEmpty()?map.get():new Staff());
+		return (T) (map.isPresent()?map.get():new Staff());
 	}
 	
 	@GetMapping("/delete/{staffId}")

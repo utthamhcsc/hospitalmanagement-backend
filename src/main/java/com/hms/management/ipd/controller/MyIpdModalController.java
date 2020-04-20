@@ -45,7 +45,7 @@
 /*    */     } 
 /* 42 */     s.setStatus("NO");
 /* 43 */     Optional<Bed> bed = this.bedrepo.findById(Integer.valueOf(s.getBedNumber()));
-/* 44 */     if (!bed.isEmpty()) {
+/* 44 */     if (bed.isPresent()) {
 /* 45 */       Bed b = bed.get();
 /* 46 */       b.setIsActive(1);
 /* 47 */       this.bedrepo.save(b);
@@ -57,7 +57,7 @@
 /*    */   @PostMapping({"/discharge"})
 /*    */   public <T> T update(@RequestBody MyIpdmodal s) {
 /* 55 */     Optional<Bed> bed = this.bedrepo.findById(Integer.valueOf(s.getBedNumber()));
-/* 56 */     if (!bed.isEmpty()) {
+/* 56 */     if (bed.isPresent()) {
 /* 57 */       Bed b = bed.get();
 /* 58 */       b.setIsActive(0);
 /* 59 */       this.bedrepo.save(b);

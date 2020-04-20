@@ -28,7 +28,7 @@ public class StaffLeaveController {
 	
 	@PostMapping("/add")
 	public <T> T add(StaffLeave s,@RequestParam("file") Optional<MultipartFile> file) {
-		if(!file.isEmpty())
+		if(file.isPresent())
 			s.setAttachDocument(upload.upload(file.get()));
 		//if(!s.getStatus().isEmpty())
 			

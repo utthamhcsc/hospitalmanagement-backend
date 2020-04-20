@@ -40,7 +40,7 @@
 /*    */   @GetMapping({"/get/opd/{id}"})
 /*    */   public <T> T get1(@PathVariable String id) {
 /* 42 */     Optional<MyOpdmodal> s = this.myOpdRepo.findById(id);
-/* 43 */     return !s.isEmpty() ? (T)s : (T)new MyOpdmodal();
+/* 43 */     return s.isPresent() ? (T)s : (T)new MyOpdmodal();
 /*    */   }
 /*    */   
 /*    */   @GetMapping({"/get/patient/{patientId}"})
