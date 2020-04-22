@@ -6,7 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.mysql.jdbc.Blob;
 
 /*    */ 
 /*    */ 
@@ -21,7 +20,7 @@ import com.mysql.jdbc.Blob;
 /*    */   private String patientname;
 /*    */   private String age;
 /*    */   private String month;
-/*    */   private Blob image;
+	/*    */ private String image;
 /*    */   private String mobilenumber;
 /*    */   private String emil;
 /*    */   private String dateOfbirth;
@@ -64,7 +63,7 @@ import com.mysql.jdbc.Blob;
 		this.month = month;
 	}
 
-	public void setImage(Blob image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
@@ -227,7 +226,7 @@ import com.mysql.jdbc.Blob;
 /* 32 */   public String getPatientname() { return this.patientname; }
 /* 33 */   public String getAge() { return this.age; }
 /* 34 */   public String getMonth() { return this.month; }
-/* 35 */   public Blob getImage() { return this.image; }
+/* 35 */   public String getImage() { return this.image; }
 /* 36 */   public String getMobilenumber() { return this.mobilenumber; }
 /* 37 */   public String getEmil() { return this.emil; }
 /* 38 */   public String getDateOfbirth() { return this.dateOfbirth; }

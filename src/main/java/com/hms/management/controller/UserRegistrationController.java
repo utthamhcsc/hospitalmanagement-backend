@@ -64,7 +64,14 @@ public class UserRegistrationController {
 		return (T)map;
 	}
 	
-	
+	@CrossOrigin
+	@RequestMapping(value="/get/patient/{patientId}", method = RequestMethod.GET, produces = "application/json")
+    public UserRegistration fetchAllUser(@PathVariable String patientId){
+		//Map<String, Object> response=new HashMap<String, Object>();
+ 		//response.put("msg",userRegistrationServiceImpl.userLogIn(userRegistration));
+		//Optional<UserRegistration> u=userRegistrationRepo.findByUserId(patientId);
+ 		return userRegistrationRepo.findByUserId(patientId);
+	}
 	
 	
 	

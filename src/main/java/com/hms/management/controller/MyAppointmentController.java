@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.hms.management.EmailSender;
 import com.hms.management.model.Appointment;
+import com.hms.management.model.PatientProfile;
 import com.hms.management.model.UserRegistration;
 import com.hms.management.repository.MyAppointmentRepo;
+import com.hms.management.repository.PatientProfileRepository;
 import com.hms.management.repository.UserRegistrationRepository;
 @CrossOrigin
 @RestController
@@ -31,6 +34,8 @@ public class MyAppointmentController {
 	@Autowired
 	private UserRegistrationRepository userRepo;
 	
+	@Autowired
+	 private PatientProfileRepository patientProfileRepository;
 
 	@PostMapping("/add")
 	public <T> T add(@RequestBody Appointment s) {
@@ -40,6 +45,7 @@ public class MyAppointmentController {
 					map.put("err", "emailid arready exist");
 					return (T) map;
 				}
+				PatientProfile p=new PatientProfile();
 				UserRegistration u=new UserRegistration();
 				u.setEmail(s.getEmail());
 				u.setGender(s.getGender());
@@ -78,7 +84,15 @@ public class MyAppointmentController {
 	public <T> T get() {
 		return (T)appointmentRepo.findAll();
 	}
+	@GetMapping("/get/patient/{patientId}")
+	public <T> T get(@PathVariable String patientId) {
+		return (T)appointmentRepo.fetchByPatientId(patientId);
+	}
 	
+	@GetMapping("/get/doctor/{doctorId}")
+	public <T> T getByDoctor(@PathVariable String doctorId) {
+		return (T)appointmentRepo.findByDoctorId(doctorId);
+	}
 	@GetMapping("/delete/{id}")
 	public <T> T delete(@PathVariable int id) {
 		appointmentRepo.deleteById(id);

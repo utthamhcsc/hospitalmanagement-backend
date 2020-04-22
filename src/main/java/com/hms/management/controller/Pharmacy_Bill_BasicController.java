@@ -43,6 +43,14 @@ public class Pharmacy_Bill_BasicController {
 		public <T> T get() {
 				return (T) Pharmacy_Bill_BasicRepo.findAll();
 			}
+		@GetMapping("/get/patient/{patientId}")
+		public <T> T get(@PathVariable String patientId) {
+				return (T) Pharmacy_Bill_BasicRepo.findByPatientId(patientId);
+			}
+		
+		
+		
+		
 		@GetMapping("/get1")
 		public <T> T get1() {
 				return (T) Pharmacy_Bill_BasicRepo.fetchBill("");

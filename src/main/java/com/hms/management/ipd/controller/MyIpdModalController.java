@@ -50,7 +50,7 @@
 /* 46 */       b.setIsActive(1);
 /* 47 */       this.bedrepo.save(b);
 /*    */     } 
-/* 49 */     s.setIpdId((s.getIpdId() != null && !s.getIpdId().isEmpty()) ? s.getIpdId() : ("ipd-" + DateTimeFormatter.ofPattern("yyyyMMMddhhmmsa").format(LocalDateTime.now())));
+/* 49 */     s.setIpdId((s.getIpdId() != null && s.getIpdId().isEmpty()) ? s.getIpdId() : ("ipd-" + DateTimeFormatter.ofPattern("yyyyMMMddhhmmsa").format(LocalDateTime.now())));
 /* 50 */     return (T)this.myIpdModalRepo.save(s);
 /*    */   }
 /*    */   
@@ -70,6 +70,11 @@
 /*    */   @GetMapping({"/get/status/{value}"})
 /*    */   public <T> T get(@PathVariable String value) {
 /* 68 */     return (T)this.myIpdModalRepo.fetchIpdPatients(value);
+/*    */   }
+
+@GetMapping({"/get/patient/{patientId}/{status}"})
+/*    */   public <T> T getbypatient(@PathVariable String patientId,@PathVariable String status) {
+/* 68 */     return (T)this.myIpdModalRepo.fetchIpdPatient(patientId,status);
 /*    */   }
 
 @GetMapping({"/get/doctor/{doctorId}/{status}"})
