@@ -1,7 +1,6 @@
 package com.hms.management.controller;
 
 import java.util.HashMap;
-
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hms.management.model.Pharmacy_Bill_Basic;
@@ -48,7 +48,11 @@ public class Pharmacy_Bill_BasicController {
 				return (T) Pharmacy_Bill_BasicRepo.findByPatientId(patientId);
 			}
 		
-		
+		@PostMapping("/getbyDate")
+		public <T> T get(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+			System.out.println(fromDate);
+				return (T) Pharmacy_Bill_BasicRepo.fetchBillByDate(fromDate,toDate);
+			}
 		
 		
 		@GetMapping("/get1")

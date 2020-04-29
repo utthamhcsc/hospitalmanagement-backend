@@ -18,7 +18,7 @@ import javax.persistence.Table;
 	/*    */ private String note;
 	/*    */ private String admissionDate;
 	/*    */ private String caseType;
-
+private String dischargeDate;
 	/*    */
 	/* 12 */ public void setIpdId(String ipdId) {
 		this.ipdId = ipdId;
@@ -272,6 +272,14 @@ import javax.persistence.Table;
 	public String getStatus() {
 		/* 36 */ return this.status;
 		/*    */ }
+
+	public String getDischargeDate() {
+		return dischargeDate;
+	}
+
+	public void setDischargeDate(String dischargeDate) {
+		this.dischargeDate = dischargeDate;
+	}
 }
 
 /*

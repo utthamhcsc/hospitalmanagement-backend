@@ -30,7 +30,11 @@ public class ChargesCategoryController {
 		return (T) chargesCategoryRepo.findAll();
 		
 	}
-	
+	@GetMapping("/get/{chargeType}")
+	public <T> T get(@PathVariable String chargeType) {
+		return (T) chargesCategoryRepo.findByChargeType(chargeType);
+		
+	}
 	@GetMapping("/delete/{id}")
 	public <T> T delete(@PathVariable int id) {
 		chargesCategoryRepo.deleteById(id);

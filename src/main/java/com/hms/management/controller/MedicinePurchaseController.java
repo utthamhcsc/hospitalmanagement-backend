@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -88,7 +89,15 @@ public class MedicinePurchaseController {
 				return (T) purchaseMedicineModalRepo.fetchAll();
 			}
 		
+		@GetMapping("/getall")
+		public <T> T getalllll() {
+				return (T) purchaseMedicineModalRepo.getAll();
+			}
 		
+		@PostMapping("/getBydate")
+		public <T> T getbyDtat(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+				return (T) purchaseMedicineModalRepo.getByDate(fromDate, toDate);
+			}
 		
 		
 			@PostMapping("/delete/{id}")

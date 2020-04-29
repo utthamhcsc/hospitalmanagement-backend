@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hms.management.EmailSender;
@@ -84,6 +85,18 @@ public class MyAppointmentController {
 	public <T> T get() {
 		return (T)appointmentRepo.findAll();
 	}
+	
+	@PostMapping("/getbyDate")
+	public <T> T fetch(@RequestParam("fromDate") String fromDate
+			,@RequestParam("toDate") String toDate,
+			@RequestParam("doctorId") String doctorId
+			) {
+		if(doctorId.equals("empty"))
+		return (T)appointmentRepo.fetchByDate(fromDate, toDate);
+		else
+			return (T)appointmentRepo.fetchByDate(doctorId, fromDate,toDate);
+	}
+	
 	@GetMapping("/get/patient/{patientId}")
 	public <T> T get(@PathVariable String patientId) {
 		return (T)appointmentRepo.fetchByPatientId(patientId);

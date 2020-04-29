@@ -16,10 +16,21 @@ public interface MyOpdRepo extends JpaRepository<MyOpdmodal, String> {
   List<?> fetchByDoctorId(String doctorId);
   
   
+  @Query("select new Map(u as user, m as opd,d.name as doctorName ,(select sum(c.appliedCharge) from MyOpdCharges c where c.opdId=m.opdId group by c.opdId) as charge) from MyOpdmodal m  inner join UserRegistration u on u.userId=m.patientId "
+  		+ "left join UserRegistration d on d.userId=m.doctorId")
+  List<?> getAll();
+  
+  @Query("select new Map(u as user, m as opd,d.name as doctorName ,(select sum(c.appliedCharge) from MyOpdCharges c where c.opdId=m.opdId group by c.opdId) as charge) from MyOpdmodal m  inner join UserRegistration u on u.userId=m.patientId "
+	  		+ "left join UserRegistration d on d.userId=m.doctorId where m.doctorId=?1")
+	  List<?> getAllByDoctorId(String doctorId);
+  
+  @Query("select new Map(u as user, m as opd,d.name as doctorName ,(select sum(c.appliedCharge) from MyOpdCharges c where c.opdId=m.opdId group by c.opdId) as charge) from MyOpdmodal m  inner join UserRegistration u on u.userId=m.patientId "
+	  		+ "left join UserRegistration d on d.userId=m.doctorId where SUBSTRING(m.appointmentDate,1,10) between SUBSTRING(?1,1,10) and SUBSTRING(?2,1,10)")
+	  List<?> getByDate(String startDate,String endDate);
+  
+  @Query("select new Map(u as user, m as opd,d.name as doctorName ,(select sum(c.appliedCharge) from MyOpdCharges c where c.opdId=m.opdId group by c.opdId) as charge) from MyOpdmodal m  inner join UserRegistration u on u.userId=m.patientId "
+	  		+ "left join UserRegistration d on d.userId=m.doctorId where m.doctorId=?1 and SUBSTRING(m.appointmentDate,1,10) between SUBSTRING(?2,1,10) and SUBSTRING(?3,1,10)")
+	  List<?> getbyDatewithDoctorId(String doctorId,String startDate,String endDate);
+   
 }
 
-
-/* Location:              C:\Users\Nagu\Downloads\WEB-INF\classes\!\com\hms\management\opd\Repo\MyOpdRepo.class
- * Java compiler version: 8 (52.0)
- * JD-Core Version:       1.1.3
- */
