@@ -11,5 +11,9 @@ public interface AmbulanceCallRepo extends JpaRepository<Ambulancecall, Integer>
 	@Query("select new Map(c.id as id,c.amount as amount,v.driverName as driverName,c.vehicleid as vehicleid,c.patientName as patientName"
 			+ ",c.contactNo as contactNo,c.date as date,v.vehicleNo as vehicleNo,v.vehicleModel as vehicleModel,c.address as address) from Ambulancecall c inner join Ambulance v on c.vehicleid=v.id")
 	List<?> fetchAll();
+	@Query("select new Map(c.id as id,c.amount as amount,v.driverName as driverName,c.vehicleid as vehicleid,c.patientName as patientName"
+			+ ",c.contactNo as contactNo,c.date as date,v.vehicleNo as vehicleNo,v.vehicleModel as vehicleModel,c.address as address) from Ambulancecall c inner join Ambulance v on c.vehicleid=v.id "
 
+	+ " where SUBSTRING(c.date) between SUBSTRING(?1,1,10) AND SUBSTRING(?2,1,10)")
+	List<?> getbydate(String fromDate, String toDate);
 }

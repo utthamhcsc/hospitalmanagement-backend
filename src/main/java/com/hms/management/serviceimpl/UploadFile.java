@@ -21,11 +21,11 @@ public class UploadFile {
 			// TODO Auto-generated catch block 
 			e.printStackTrace();
 		}
-        Path path = Paths.get("uploads/" + file.getOriginalFilename());
+        Path path = Paths.get("" + file.getOriginalFilename());
         try {
 			Files.write(path, bytes);
 			map.put("status","1");
-			return (T) ("uploads/" + file.getOriginalFilename());
+			return (T) ("" + file.getOriginalFilename());
 			
 		} catch (IOException e) {
 			

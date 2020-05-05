@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hms.management.ambulance.Repo.AmbulanceCallRepo;
@@ -30,6 +31,11 @@ public class AmbulancecallController {
 		return (T) ambulanceRepo.fetchAll();
 		
 	}
+	
+	@PostMapping({"/getbyDate"})
+	/*    */   public <T> T get(@RequestParam("fromDate")String fromDate,@RequestParam("toDate")String toDate) {
+	/* 41 */     return (T)this.ambulanceRepo.getbydate(fromDate, toDate);
+	/*    */   }
 	
 	@GetMapping("/delete/{id}")
 	public <T> T delete(@PathVariable int id) {
