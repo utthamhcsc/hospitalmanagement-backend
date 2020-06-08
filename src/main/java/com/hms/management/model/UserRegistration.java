@@ -25,12 +25,7 @@ import javax.persistence.Table;
 /*    */   } private String userId; private String gender; private Date signupDate; private String role; private String userProfile; public UserRegistration() {}
 /*    */   public void setId(int id) {
 /* 18 */     this.id = id; } public void setName(String name) { this.name = name; } public void setMobileNo(String mobileNo) { this.mobileNo = mobileNo; } public void setEmail(String email) { this.email = email; } public void setPassword(String password) { this.password = password; } public void setUserId(String userId) { this.userId = userId; } public void setGender(String gender) { this.gender = gender; } public void setSignupDate(Date signupDate) { this.signupDate = signupDate; } public void setRole(String role) { this.role = role; } public void setUserProfile(String userProfile) { this.userProfile = userProfile; }
-/*    */ 
-/*    */ 
-/*    */ 
-/*    */ 
-/*    */ 
-/*    */   
+  
 /*    */   public int getId() {
 /* 26 */     return this.id;
 /* 27 */   } public String getName() { return this.name; }

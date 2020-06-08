@@ -11,4 +11,5 @@ public interface RadiologyRepo extends JpaRepository<Radiology, Integer> {
 	@Query("select new Map(p as p,c.name as category)  from Radiology p inner join RadiologyCategory c on p.category=c.id")
 	List<?> fetchAll();
 
+	
 }

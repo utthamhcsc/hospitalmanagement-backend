@@ -41,8 +41,15 @@ public class RadiologyPatientController {
 	 /* 41 */     return (T)this. RadiologyPatientRepo.getByDate(fromDate, toDate);
 	 /*    */   }
 	 /*    */ 
-	 /*    */   
-	 /*    */  
+	 /*    */   @GetMapping("/get/doctor/{doctorId}")
+		public <T> T getBydoctor(@PathVariable String doctorId) {
+			return (T) RadiologyPatientRepo.fetchByDoctor(doctorId);
+	 /*    */ }
+	 /*    */  	@GetMapping("/get/patient/{patientId}")
+		public <T> T getBypatient(@PathVariable String patientId) {
+			return (T) RadiologyPatientRepo.fetchByPatient(patientId);
+			
+		}
 	 /*    */ 
 	 /*    */   
 	 /*    */   @GetMapping({"/delete/{id}"})

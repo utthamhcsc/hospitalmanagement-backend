@@ -1,4 +1,4 @@
-package com.hms.management.radiology.controller;
+package com.hms.management.calander.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,38 +9,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hms.management.radiology.modal.Radiology;
-import com.hms.management.radiology.repo.RadiologyRepo;
+import com.hms.management.calander.modal.CalenderEvent;
+import com.hms.management.calander.repo.CalenderEventRepo;
 
-@RestController
 @CrossOrigin
-@RequestMapping("/radiology")
-public class RadiologyController {
+@RestController
+@RequestMapping("/calenderEvent")
+public class CalenderEventController {
 	@Autowired
-	private RadiologyRepo RadiologyRepo;
+	private CalenderEventRepo CalenderEventRepo;
 	
 	@PostMapping("/add")
-	public <T> T add(@RequestBody Radiology b) {
-		return (T) RadiologyRepo.save(b);
+	public <T> T add(@RequestBody CalenderEvent b) {
+		//System.out.println(b);
+		
+		return (T) CalenderEventRepo.save(b);
+		//return null;
 		
 	}
 	
 	@GetMapping("/get")
 	public <T> T get() {
-		return (T) RadiologyRepo.fetchAll();
+		return (T) CalenderEventRepo.findAll();
 		
 	}
 	
-	
-	
+	@GetMapping("/getByUser/{userId}")
+	public <T> T findByuserId(@PathVariable String userId) {
+		return (T) CalenderEventRepo.getByUserId(userId, "public");
+		
+	}
 	
 	
 	@GetMapping("/delete/{id}")
 	public <T> T delete(@PathVariable int id) {
-		RadiologyRepo.deleteById(id);
+		CalenderEventRepo.deleteById(id);
 		return (T) (""+id);
-		
 	}
-
-
 }

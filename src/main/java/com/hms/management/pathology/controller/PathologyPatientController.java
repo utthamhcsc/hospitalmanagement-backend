@@ -43,8 +43,15 @@ public class PathologyPatientController {
 	 /*    */   }
 	 /*    */ 
 	 /*    */   
-	 /*    */  
-	 /*    */ 
+	 /*    */  	@GetMapping("/get/patient/{patientId}")
+		public <T> T getBypatient(@PathVariable String patientId) {
+			return (T) PathologyPatientRepo.fetchByPatient(patientId);
+	 /*    */ }
+	 
+		@GetMapping("/get/doctor/{doctorId}")
+		public <T> T getBydoctor(@PathVariable String doctorId) {
+			return (T) PathologyPatientRepo.fetchByDoctor(doctorId);
+	 /*    */ }
 	 /*    */   
 	 /*    */   @GetMapping({"/delete/{id}"})
 	 /*    */   public <T> T delete(@PathVariable int id) {

@@ -6,7 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.hms.management.model.UserRegistration;
 import com.hms.management.repository.UserRegistrationRepository;
 import com.hms.management.service.UserRegistrationService;
+import com.hms.management.userlog.modal.Userlog;
+import com.hms.management.userlog.repo.UserLogRepo;
 
 @Service
 public class UserRegistrationServiceImpl implements UserRegistrationService{
@@ -21,7 +24,8 @@ public class UserRegistrationServiceImpl implements UserRegistrationService{
 	
 	@Autowired
 	public UserRegistrationRepository userRegistrationRepository;
-
+	@Autowired
+	 private UserLogRepo userlogrepo;
 	
 	//@Autowired
 	//public BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -51,33 +55,14 @@ public class UserRegistrationServiceImpl implements UserRegistrationService{
  		return response;
 	}
 
-	@Override
-	public Map<String, Object> userLogIn(UserRegistration userRegistration) {
+	
+	public Map<String, Object> userLogIn(UserRegistration userRegistration,HttpServletRequest request) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		String pwd = userRegistration.getPassword();
 		
 		System.out.println("pwd=" + pwd);
-		String mobile = userRegistration.getMobileNo();
-
-		if (mobile != null) {
-			UserRegistration user = userRegistrationRepository.findByMobileNo(mobile);
-			if (user != null) {
-
-				if (user.getPassword().toString().equals(pwd)) {
-		            user.setPassword(null);
-					response.put("msg", "user login succesful by phone number");
-					response.put("status",1);
-
-					response.put("detail", user);
-				} else
-					response.put("msg", "wrong password");
-
-			} else {
-				response.put("msg", "user doesnot exist");
-
-			}
-		} else {
-			String email = userRegistration.getEmail();
+		 
+			String email = userRegistration.getName();
                if (email != null) {
        			//UserRegistration user = userRegistrationRepository.findByEmail(email);
        			List<UserRegistration> user = userRegistrationRepository.findByEmail(email);
@@ -85,19 +70,54 @@ public class UserRegistrationServiceImpl implements UserRegistrationService{
     				UserRegistration u=user.get(0);
                   if (u.getPassword().toString().equals(pwd)) {
              		  u.setPassword(null);
+             		  Userlog log=new Userlog();
+             		  log.setIpaddress(request.getRemoteAddr());
+             		  log.setUser(u.getName());
+             		  log.setUserAgent(request.getHeader("user-agent"));
+             		  log.setLoginDatetime(userRegistration.getSignupDate());
+             		  log.setRole(u.getRole());
+             		  userlogrepo.save(log);
 					response.put("msg", "user login succesful by mail");
 					response.put("status",1);
 					response.put("details", u);
  					} else {
+ 						
 					response.put("msg", "wrong password");
 				}
-			}
-
+			
+    			}
 			else {
+				String mobile = userRegistration.getName();
+
+				if (mobile != null) {
+					UserRegistration user1 = userRegistrationRepository.findByMobileNo(mobile);
+					if (user1 != null) {
+
+						if (user1.getPassword().toString().equals(pwd)) {
+				            user1.setPassword(null);
+				            Userlog log=new Userlog();
+		             		  log.setIpaddress(request.getRemoteAddr());
+		             		  log.setUser(user1.getName());
+		             		  log.setUserAgent(request.getHeader("user-agent"));
+		             		  log.setLoginDatetime(userRegistration.getSignupDate());
+		             		  log.setRole(user1.getRole());
+		             		  userlogrepo.save(log);
+							response.put("msg", "user login succesful by phone number");
+							response.put("status",1);
+
+							response.put("detail", user1);
+						} else
+							response.put("msg", "wrong password");
+
+					} else {
+						response.put("msg", "user doesnot exist");
+
+					}
+				}
 				response.put("msg", "user doesnot exist");
 				}
 		}
-		}
+		
 		return response;
 	}
     @Override
@@ -136,6 +156,13 @@ public static void main(String ...strings) {
 @Override
 public UserRegistration adUserRegistration(UserRegistration userRegitration) {
 	 return userRegistrationRepository.save(userRegitration);
+}
+
+
+@Override
+public Map<String, Object> userLogIn(UserRegistration userRegistration) {
+	// TODO Auto-generated method stub
+	return null;
 }
 
 

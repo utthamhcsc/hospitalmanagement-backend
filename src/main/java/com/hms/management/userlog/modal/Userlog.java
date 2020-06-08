@@ -1,16 +1,15 @@
+package com.hms.management.userlog.modal;
+import java.util.Date;
 
-/*    */
-package com.hms.management.model;
-
-/*    */
-/*    */ import javax.persistence.Entity;
-/*    */ import javax.persistence.GeneratedValue;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-/*    */ import javax.persistence.Id;
+import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-/*    */
-/*    */ @Entity
+@Entity
 /*    */ @Table(name = "userlog")
 /*    */ public class Userlog {
 	/*    */ @Id
@@ -26,7 +25,8 @@ import javax.persistence.Table;
 
 	private String ipaddress;
 	private String userAgent;
-	private String loginDatetime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date loginDatetime;
 
 	public void setUser(String user) {
 		this.user = user;
@@ -44,7 +44,7 @@ import javax.persistence.Table;
 		this.userAgent = userAgent;
 	}
 
-	public void setLoginDatetime(String loginDatetime) {
+	public void setLoginDatetime(Date loginDatetime) {
 		this.loginDatetime = loginDatetime;
 	}
 
@@ -86,7 +86,7 @@ import javax.persistence.Table;
 				+ ", userAgent=" + getUserAgent() + ", loginDatetime=" + getLoginDatetime() + ")";
 	}
 
-	public Userlog(int id, String user, String role, String ipaddress, String userAgent, String loginDatetime) {
+	public Userlog(int id, String user, String role, String ipaddress, String userAgent, Date loginDatetime) {
 		/* 17 */ this.id = id;
 		this.user = user;
 		this.role = role;
@@ -121,7 +121,7 @@ import javax.persistence.Table;
 		return this.userAgent;
 	}
 
-	public String getLoginDatetime() {
+	public Date getLoginDatetime() {
 		/* 29 */ return this.loginDatetime;
 		/*    */ }
 	/*    */ }

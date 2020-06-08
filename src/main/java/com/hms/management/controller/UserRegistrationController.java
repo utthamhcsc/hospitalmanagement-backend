@@ -8,9 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +24,8 @@ import com.hms.management.beans.UserRegistrationBean;
 import com.hms.management.model.UserRegistration;
 import com.hms.management.repository.UserRegistrationRepository;
 import com.hms.management.serviceimpl.UserRegistrationServiceImpl;
+import com.hms.management.userlog.modal.Userlog;
+import com.hms.management.userlog.repo.UserLogRepo;
 @RestController
 public class UserRegistrationController {
 
@@ -35,7 +40,16 @@ public class UserRegistrationController {
 	public UserRegistrationServiceImpl userRegistrationServiceImpl;
 	 @Autowired
 	private UserRegistrationRepository userRegistrationRepo;
+	 @Autowired
+	 private UserLogRepo userlogrepo;
 	
+	 
+	 @CrossOrigin
+	 @PostMapping("/user/search")
+	 public <T>T findUser(@RequestParam("role") String role,@RequestParam("user") String user){
+		 return (T)userRegistrationRepo.findByRoleAndNameContainingIgnoreCase(role,user);
+	 }
+	 
 	
 	@CrossOrigin
 	@RequestMapping(value="/changepassword",method = RequestMethod.POST)
@@ -75,7 +89,13 @@ public class UserRegistrationController {
 	
 	
 	
-	
+	@CrossOrigin
+	@RequestMapping(value="/getall/{role}", method = RequestMethod.GET, produces = "application/json")
+    public Object getallbyrole(@PathVariable String role){
+		//Map<String, Object> response=new HashMap<String, Object>();
+ 		//response.put("msg",userRegistrationServiceImpl.userLogIn(userRegistration));
+ 		return userRegistrationRepo.findByRole(role);
+	}
 	
 	
 	
@@ -121,18 +141,26 @@ public class UserRegistrationController {
 	}
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value="login", method = RequestMethod.POST, produces = "application/json")
-    public Map<String, Object> logIn(@RequestBody UserRegistration userRegistration){
+    public Map<String, Object> logIn(@RequestBody UserRegistration userRegistration,HttpServletRequest request){
+		Userlog log=new Userlog();
+	System.out.println(request.getRemoteAddr());
+	
+	System.out.println(request.getHeader("user-agent"));
 		Map<String, Object> response=new HashMap<String, Object>();
- 		response.put("msg",userRegistrationServiceImpl.userLogIn(userRegistration));
+ 		response.put("msg",userRegistrationServiceImpl.userLogIn(userRegistration,request));
  		return response;
 	}
 	@CrossOrigin
 	@RequestMapping(value="/fetchalluser", method = RequestMethod.GET, produces = "application/json")
     public List<UserRegistration> getAllUser(){
+		
+		   
+		
 		//Map<String, Object> response=new HashMap<String, Object>();
  		//response.put("msg",userRegistrationServiceImpl.userLogIn(userRegistration));
  		return userRegistrationServiceImpl.fetchAllUser();
 	}
+	
 	@CrossOrigin
 	@RequestMapping(value="/fetchalluser/{role}", method = RequestMethod.GET, produces = "application/json")
     public Object getUserByRole(@PathVariable String role){

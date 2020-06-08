@@ -100,13 +100,12 @@ public class MedicinePurchaseController {
 			}
 		
 		
-			@PostMapping("/delete/{id}")
+			@GetMapping("/delete/{id}")
 			public <T> T deleteById(@PathVariable int id) {
-				Map<String,Object> map= new HashMap<>();
+				
 			 purchaseMedicineModalRepo.deleteById(id);;
-					map.put("msg", "successfully deleted");
-					map.put("status","1");
-					return (T) map;
+				
+					return (T) (""+id);
 			}	
 				
 

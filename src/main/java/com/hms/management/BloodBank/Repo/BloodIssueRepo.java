@@ -21,5 +21,11 @@ public interface BloodIssueRepo extends JpaRepository<BloodIssue, Integer> {
 			+ "left join BloodDonar do on do.id=b.donorId "
 			+ "where b.issueDate between SUBSTRING(?1,1,10) AND SUBSTRING(?2,1,10)")
 	List<?> getbydate(String fromDate,String toDate);
+	@Query("select new Map(b as b,u.name as patientName,u.gender as gender,do.donarName as donarName) "
+			+ "from BloodIssue b inner join UserRegistration u on u.userId=b.patientId "
+			+ " "
+			+ "left join BloodDonar do on do.id=b.donorId "
+			+ "where b.patientId=?1")
+	List<?> fetchByPatient(String patientId);
 
 }

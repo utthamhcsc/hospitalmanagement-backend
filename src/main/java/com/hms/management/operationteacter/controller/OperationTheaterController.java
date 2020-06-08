@@ -33,7 +33,14 @@ public class OperationTheaterController {
 	public <T> T get() {
 		return (T) OperationTheaterRepo.fetchall();
 		
+		
+		
 	}
+	
+ 	@GetMapping("/get/patient/{patientId}")
+		public <T> T getBypatient(@PathVariable String patientId) {
+			return (T) OperationTheaterRepo.fetchByPatient(patientId);
+	 /*    */ }
 	@GetMapping({"/getall"})
 	/*    */   public <T> T getal() {
 	/* 38 */     return (T)this.OperationTheaterRepo.fetchall();

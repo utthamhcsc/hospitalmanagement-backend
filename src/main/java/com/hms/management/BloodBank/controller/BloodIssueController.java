@@ -57,5 +57,9 @@ public class BloodIssueController {
 		return (T) (""+id);
 	
 }
+	@GetMapping("/get/patient/{patientId}")
+	public <T> T getBypatient(@PathVariable String patientId) {
+		return (T) BloodIssueRepo.fetchByPatient(patientId);
+ /*    */ }
 }
 
